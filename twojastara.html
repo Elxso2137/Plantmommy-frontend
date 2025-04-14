@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Twoja Stara - Profil użytkownika</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      background: #fff5f7;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    h1 {
+      color: #e91e63;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .btn {
+      background: linear-gradient(145deg, #ffe082, #a5d6a7);
+      border: 3px solid #e91e63;
+      color: #333;
+      font-size: 18px;
+      padding: 15px;
+      border-radius: 20px;
+      text-align: center;
+      font-weight: bold;
+      width: 250px;
+      box-shadow: 4px 4px 10px rgba(0,0,0,0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 6px 6px 14px rgba(0,0,0,0.15);
+    }
+  </style>
+</head>
+<body>
+  <h1>🌿 Witaj w Profilu Użytkownika - Twoja Stara 🌿</h1>
+
+  <div class="button-container">
+    <a href="http://plantmommy.ct.ws/dodajrosline-twojastara.php" class="btn">Dodaj Roślinę</a>
+    <a href="http://plantmommy.ct.ws/twojastara-watering.php" class="btn">Podlej Rośliny</a>
+    <a href="http://plantmommy.ct.ws/listaroslin-twojastara.php" class="btn">Zobacz Rośliny</a>
+    <a href="index.html" class="btn">Wróć do wyboru użytkownika</a>
+  </div>
+</body>
+</html>
