@@ -1,29 +1,74 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Profile Anetki</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plantmommy</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      background: #fff5f7;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    h1 {
+      color: #e91e63;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .button-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      width: 90%;
+      max-width: 800px;
+    }
+
+    .profile-btn {
+      background: linear-gradient(145deg, #ffe082, #a5d6a7);
+      border: 3px solid #e91e63;
+      color: #333;
+      font-size: 18px;
+      padding: 20px;
+      border-radius: 20px;
+      text-align: center;
+      text-decoration: none;
+      font-weight: bold;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 4px 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .profile-btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 6px 6px 14px rgba(0,0,0,0.15);
+    }
+
+    .emoji {
+      font-size: 30px;
+      display: block;
+      margin-bottom: 10px;
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Witaj, Anetko! Twoje rośliny</h1>
-    <nav>
-      <a href="dodajrosline-anetka.html">Dodaj roślinę</a>
-      <a href="listaroslin-anetka.php">Lista roślin</a>
-    </nav>
-  </header>
+  <h1>🌿 Plantmommy 🌿</h1>
 
-  <section>
-    <h2>Twoje rośliny:</h2>
-    <div id="rośliny">
-      <!-- Tutaj będą wyświetlane rośliny z backendu -->
-      <?php
-        // Pokaż rośliny przypisane do Anetki
-        // W pliku PHP na serwerze powinna być ta logika
-      ?>
-    </div>
-  </section>
+  <div class="button-grid">
+    <a href="http://plantmommy.ct.ws/anetka.php" class="profile-btn">
+      <span class="emoji">🌸</span>
+      Anetka
+    </a>
+    <a href="http://plantmommy.ct.ws/test.php" class="profile-btn">
+      <span class="emoji">🧪</span>
+      Testowy profil
+    </a>
+  </div>
 </body>
 </html>
