@@ -74,6 +74,21 @@
         });
     }
   </script>
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    if ("Notification" in window && Notification.permission !== "granted") {
+      Notification.requestPermission().then(function (permission) {
+        if (permission === "granted") {
+          new Notification("🌿 Plantmommy", {
+            body: "Hej Anetko! Nie zapomnij o podlaniu roślinek 💧",
+            icon: "https://cdn-icons-png.flaticon.com/512/2900/2900496.png" // możesz dać swój link
+          });
+        }
+      });
+    }
+  });
+</script>
+
 </body>
 </html>
 
