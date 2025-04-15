@@ -1,0 +1,16 @@
+{
+  "name": "Plantmommy - Anetka",
+  "short_name": "Plantmommy",
+  "description": "Aplikacja do zarządzania roślinami - profil Anetki",
+  "start_url": "http://plantmommy.ct.ws/anetka.html",
+  "display": "standalone",
+  "background_color": "#fff5f7",
+  "theme_color": "#e91e63",
+  "icons": [
+    {
+      "src": "https://plantmommy.ct.ws/favicon.ico",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
