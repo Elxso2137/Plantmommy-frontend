@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Test - Profil użytkownika</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#ffe082" />
   <style>
     body {
       margin: 0;
@@ -60,5 +62,27 @@
     <a href="http://plantmommy.ct.ws/listaroslin-test.php" class="btn">Zobacz Rośliny</a>
     <a href="index.html" class="btn">Wróć do wyboru użytkownika</a>
   </div>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('sw.js')
+          .then(function (registration) {
+            console.log('Service Worker zarejestrowany:', registration.scope);
+          }, function (err) {
+            console.log('Błąd rejestracji Service Workera:', err);
+          });
+      });
+    }
+
+    // Zapytaj o pozwolenie na powiadomienia
+    if (window.Notification && Notification.permission !== "granted") {
+      Notification.requestPermission().then(permission => {
+        if (permission === "granted") {
+          console.log("Zgoda na powiadomienia udzielona!");
+        }
+      });
+    }
+  </script>
 </body>
 </html>
