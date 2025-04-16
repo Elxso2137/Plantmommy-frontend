@@ -1,15 +1,20 @@
 {
-  "name": "Plantmommy - Twoja Stara",
-  "short_name": "Plantmommy",
-  "description": "Aplikacja do zarządzania roślinami - profil Twoja Stara",
-  "start_url": "http://plantmommy.ct.ws/twojastara.html",
+  "name": "Plantmommy - Twoja stara",
+  "short_name": "Twoja stara",
+  "description": "Aplikacja do zarządzania roślinami - profil Twoja stara",
+  "start_url": "https://plantmommy.ct.ws/twojastara.html",
   "display": "standalone",
   "background_color": "#fff5f7",
   "theme_color": "#e91e63",
   "icons": [
     {
-      "src": "https://plantmommy.ct.ws/favicon.ico",
+      "src": "/icon.png",
       "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon.png",
+      "sizes": "512x512",
       "type": "image/png"
     }
   ]
