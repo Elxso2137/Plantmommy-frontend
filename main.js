@@ -1,25 +1,20 @@
 // Sprawdzamy, czy przeglądarka wspiera Service Worker i Push API
 if ('serviceWorker' in navigator && 'PushManager' in window) {
+  console.log('Service Worker i Push API wspierane!');
   navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
     console.log('Service Worker zarejestrowany!', registration);
 
-    // Sprawdzamy, czy aplikacja działa w trybie standalone
-    if (window.matchMedia('(display-mode: standalone)').matches) {
-      console.log('Aplikacja działa w trybie standalone.');
-
-      // Zapytanie o pozwolenie na powiadomienia push
-      Notification.requestPermission().then(function(permission) {
-        if (permission === "granted") {
-          console.log('Użytkownik zgodził się na powiadomienia push.');
-          // Możemy teraz subskrybować użytkownika do powiadomień push
-          subscribeUserToPush(registration);
-        } else {
-          console.log('Użytkownik odmówił powiadomienia push.');
-        }
-      });
-    } else {
-      console.log('Aplikacja nie działa w trybie standalone.');
-    }
+    // Zapytanie o pozwolenie na powiadomienia push
+    Notification.requestPermission().then(function(permission) {
+      console.log('Permission dla powiadomień:', permission);
+      if (permission === "granted") {
+        console.log('Użytkownik zgodził się na powiadomienia push.');
+        // Możemy teraz subskrybować użytkownika do powiadomień push
+        subscribeUserToPush(registration);
+      } else {
+        console.log('Użytkownik odmówił powiadomienia push.');
+      }
+    });
   }).catch(function(error) {
     console.error('Błąd rejestracji Service Workera:', error);
   });
@@ -28,9 +23,10 @@ if ('serviceWorker' in navigator && 'PushManager' in window) {
 }
 
 function subscribeUserToPush(registration) {
+  console.log('Próbujemy subskrybować użytkownika...');
   registration.pushManager.subscribe({
     userVisibleOnly: true,
-    applicationServerKey: urlB64ToUint8Array('VAPID_PUBLIC_KEY') // Zastąp VAPID_PUBLIC_KEY rzeczywistym kluczem
+    applicationServerKey: urlB64ToUint8Array('BHq85usm7hqXXAfaQe3VVa-oXgVXe9VxElrlIAquTTVq3_whlRIrjthhRQSt7JKxT3ldRfmoNc4r1W81kAEoZmY') // Zastąp VAPID_PUBLIC_KEY rzeczywistym kluczem
   }).then(function(subscription) {
     console.log('Subskrypcja użytkownika:', subscription);
     // Prześlij subskrypcję do backendu (np. do bazy danych)
