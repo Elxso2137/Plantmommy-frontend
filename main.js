@@ -3,16 +3,23 @@ if ('serviceWorker' in navigator && 'PushManager' in window) {
   navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
     console.log('Service Worker zarejestrowany!', registration);
 
-    // Zapytanie o pozwolenie na powiadomienia push
-    Notification.requestPermission().then(function(permission) {
-      if (permission === "granted") {
-        console.log('Użytkownik zgodził się na powiadomienia push.');
-        // Możemy teraz subskrybować użytkownika do powiadomień push
-        subscribeUserToPush(registration);
-      } else {
-        console.log('Użytkownik odmówił powiadomienia push.');
-      }
-    });
+    // Sprawdzamy, czy aplikacja działa w trybie standalone
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      console.log('Aplikacja działa w trybie standalone.');
+
+      // Zapytanie o pozwolenie na powiadomienia push
+      Notification.requestPermission().then(function(permission) {
+        if (permission === "granted") {
+          console.log('Użytkownik zgodził się na powiadomienia push.');
+          // Możemy teraz subskrybować użytkownika do powiadomień push
+          subscribeUserToPush(registration);
+        } else {
+          console.log('Użytkownik odmówił powiadomienia push.');
+        }
+      });
+    } else {
+      console.log('Aplikacja nie działa w trybie standalone.');
+    }
   }).catch(function(error) {
     console.error('Błąd rejestracji Service Workera:', error);
   });
