@@ -1,4 +1,4 @@
-const CACHE_NAME = 'plantmommy-cache-v3';
+const CACHE_NAME = 'plantmommy-cache-v4';
 const urlsToCache = [
   '/',
   '/index.html',
@@ -7,6 +7,9 @@ const urlsToCache = [
   '/icon.png'
 ];
 
+// -----------------------------
+// Instalacja Service Workera i cache
+// -----------------------------
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -14,6 +17,9 @@ self.addEventListener('install', event => {
   );
 });
 
+// -----------------------------
+// Obsługa fetch (pobieranie z cache lub sieci)
+// -----------------------------
 self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request)
@@ -22,36 +28,44 @@ self.addEventListener('fetch', event => {
 });
 
 // -----------------------------
-// 🔔 Powiadomienia dwa razy dziennie
+// Push API - Obsługa powiadomień push
 // -----------------------------
-function getUserIdFromURL() {
-  if (self.location.href.includes('twojastara')) return 1;
-  if (self.location.href.includes('anetka')) return 2;
-  return null;
-}
-
-function checkTimeAndNotify() {
-  const userId = getUserIdFromURL();
-  if (!userId) return;
-
-  const now = new Date();
-  const hour = now.getHours();
-
-  if (hour === 17 || hour === 20) {
-    fetch(`https://plantmommy.ct.ws/check-watering.php?user_id=${userId}`)
-      .then(res => res.json())
-      .then(data => {
-        if (data.notify && data.plants.length > 0) {
-          const plantList = data.plants.join(', ');
-          self.registration.showNotification("🌿 Rośliny do podlania!", {
-            body: `Czas podlać: ${plantList}`,
-            icon: '/icon.png',
-            badge: '/icon.png'
-          });
-        }
-      });
+self.addEventListener('push', event => {
+  let data = {};
+  if (event.data) {
+    data = event.data.json(); // Dane przesyłane przez serwer
   }
-}
 
-// Sprawdzamy co godzinę
-setInterval(checkTimeAndNotify, 60 * 60 * 1000);
+  const title = data.title || "🌿 Powiadomienie od PlantMommy!";
+  const options = {
+    body: data.body || "Czas podlać swoje rośliny!",
+    icon: '/icon.png',
+    badge: '/icon.png',
+    data: data.url || '/'
+  };
+
+  event.waitUntil(
+    self.registration.showNotification(title, options)
+  );
+});
+
+// -----------------------------
+// Kliknięcie w powiadomienie
+// -----------------------------
+self.addEventListener('notificationclick', event => {
+  event.notification.close(); // Zamknij powiadomienie
+
+  // Otwórz stronę lub przenieś użytkownika do odpowiedniego linku
+  event.waitUntil(
+    clients.matchAll({ type: 'window' }).then(clientList => {
+      for (const client of clientList) {
+        if (client.url === event.notification.data && 'focus' in client) {
+          return client.focus();
+        }
+      }
+      if (clients.openWindow) {
+        return clients.openWindow(event.notification.data);
+      }
+    })
+  );
+});
