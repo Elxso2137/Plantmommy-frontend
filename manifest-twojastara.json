@@ -2,7 +2,7 @@
   "name": "Plantmommy - Twoja stara",
   "short_name": "Twoja stara",
   "description": "Aplikacja do zarządzania roślinami - profil Twoja stara",
-  "start_url": "https://plantmommy.ct.ws/twojastara.html",
+  "start_url": "/twojastara.html",
   "display": "standalone",
   "background_color": "#fff5f7",
   "theme_color": "#e91e63",
