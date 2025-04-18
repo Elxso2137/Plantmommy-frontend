@@ -16,16 +16,31 @@ self.addEventListener('install', event => {
   );
 });
 
-// Aktywacja i przejęcie kontroli nad stronami
+// Aktywacja i usuwanie starych cache'y
 self.addEventListener('activate', event => {
-  event.waitUntil(clients.claim());
+  const cacheWhitelist = [CACHE_NAME]; // Tylko ten cache będzie utrzymany
+
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.map(cacheName => {
+          if (!cacheWhitelist.includes(cacheName)) {
+            return caches.delete(cacheName); // Usunięcie starych cache'y
+          }
+        })
+      );
+    }).then(() => {
+      clients.claim(); // Natychmiastowe przejęcie kontroli
+    })
+  );
 });
 
 // Obsługa fetch (pobieranie z cache lub sieci)
 self.addEventListener('fetch', event => {
   event.respondWith(
-    caches.match(event.request)
-      .then(response => response || fetch(event.request))
+    caches.match(event.request).then(response => {
+      return response || fetch(event.request); // Jeśli nie ma w cache, pobierz z sieci
+    })
   );
 });
 
