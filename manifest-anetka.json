@@ -2,18 +2,18 @@
   "name": "Plantmommy - Anetka",
   "short_name": "Anetka",
   "description": "Aplikacja do zarządzania roślinami - profil Anetki",
-  "start_url": "/anetka.html",  
+  "start_url": "https://elxso2137.github.io/Plantmommy-frontend/anetka.html",
   "display": "standalone",
   "background_color": "#fff5f7",
   "theme_color": "#e91e63",
   "icons": [
     {
-      "src": "/icon.png",
+      "src": "https://elxso2137.github.io/Plantmommy-frontend/icon.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/icon.png",
+      "src": "https://elxso2137.github.io/Plantmommy-frontend/icon.png",
       "sizes": "512x512",
       "type": "image/png"
     }
