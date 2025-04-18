@@ -1,10 +1,10 @@
-const CACHE_NAME = 'plantmommy-cache-v5';
+const CACHE_NAME = 'plantmommy-cache-v6'; // Zaktualizowana wersja cache
 const urlsToCache = [
-  '/Plantmommy-frontend/',
-  '/Plantmommy-frontend/index.html',
-  '/Plantmommy-frontend/anetka.html',
-  '/Plantmommy-frontend/twojastara.html',
-  '/Plantmommy-frontend/icon.png'
+  'https://elxso2137.github.io/Plantmommy-frontend/', // Pełne URL
+  'https://elxso2137.github.io/Plantmommy-frontend/index.html',
+  'https://elxso2137.github.io/Plantmommy-frontend/anetka.html',
+  'https://elxso2137.github.io/Plantmommy-frontend/twojastara.html',
+  'https://elxso2137.github.io/Plantmommy-frontend/icon.png'
 ];
 
 // Instalacja Service Workera i cache
@@ -12,7 +12,7 @@ self.addEventListener('install', event => {
   self.skipWaiting(); // natychmiastowa aktywacja
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(urlsToCache))
+      .then(cache => cache.addAll(urlsToCache)) // Zaktualizowane pełne URL-e
   );
 });
 
@@ -54,10 +54,10 @@ self.addEventListener('push', event => {
   const title = data.title || "🌿 Powiadomienie od PlantMommy!";
   const options = {
     body: data.body || "Czas podlać swoje rośliny!",
-    icon: '/Plantmommy-frontend/icon.png',
-    badge: '/Plantmommy-frontend/icon.png',
+    icon: 'https://elxso2137.github.io/Plantmommy-frontend/icon.png', // Zaktualizowany pełny URL
+    badge: 'https://elxso2137.github.io/Plantmommy-frontend/icon.png', // Zaktualizowany pełny URL
     data: {
-      url: data.url || '/Plantmommy-frontend/index.html'
+      url: data.url || 'https://elxso2137.github.io/Plantmommy-frontend/index.html' // Zaktualizowany pełny URL
     }
   };
 
@@ -70,7 +70,7 @@ self.addEventListener('push', event => {
 self.addEventListener('notificationclick', event => {
   event.notification.close();
 
-  const targetUrl = event.notification.data?.url || '/Plantmommy-frontend/index.html';
+  const targetUrl = event.notification.data?.url || 'https://elxso2137.github.io/Plantmommy-frontend/index.html'; // Zaktualizowany pełny URL
 
   event.waitUntil(
     clients.matchAll({ type: 'window' }).then(clientList => {
