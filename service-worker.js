@@ -1,25 +1,27 @@
-const CACHE_NAME = 'plantmommy-cache-v4';
+const CACHE_NAME = 'plantmommy-cache-v5';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/anetka.html',
-  '/twojastara.html',
-  '/icon.png'
+  '/Plantmommy-frontend/',
+  '/Plantmommy-frontend/index.html',
+  '/Plantmommy-frontend/anetka.html',
+  '/Plantmommy-frontend/twojastara.html',
+  '/Plantmommy-frontend/icon.png'
 ];
 
-// -----------------------------
 // Instalacja Service Workera i cache
-// -----------------------------
 self.addEventListener('install', event => {
+  self.skipWaiting(); // natychmiastowa aktywacja
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => cache.addAll(urlsToCache))
   );
 });
 
-// -----------------------------
+// Aktywacja i przejęcie kontroli nad stronami
+self.addEventListener('activate', event => {
+  event.waitUntil(clients.claim());
+});
+
 // Obsługa fetch (pobieranie z cache lub sieci)
-// -----------------------------
 self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request)
@@ -27,22 +29,20 @@ self.addEventListener('fetch', event => {
   );
 });
 
-// -----------------------------
 // Push API - Obsługa powiadomień push
-// -----------------------------
 self.addEventListener('push', event => {
   let data = {};
   if (event.data) {
-    data = event.data.json(); // Dane przesyłane przez serwer
+    data = event.data.json();
   }
 
   const title = data.title || "🌿 Powiadomienie od PlantMommy!";
   const options = {
     body: data.body || "Czas podlać swoje rośliny!",
-    icon: '/icon.png',
-    badge: '/icon.png',
+    icon: '/Plantmommy-frontend/icon.png',
+    badge: '/Plantmommy-frontend/icon.png',
     data: {
-      url: data.url || '/index.html' // bezpieczne domyślne przekierowanie
+      url: data.url || '/Plantmommy-frontend/index.html'
     }
   };
 
@@ -51,13 +51,11 @@ self.addEventListener('push', event => {
   );
 });
 
-// -----------------------------
 // Kliknięcie w powiadomienie
-// -----------------------------
 self.addEventListener('notificationclick', event => {
-  event.notification.close(); // Zamknij powiadomienie
+  event.notification.close();
 
-  const targetUrl = event.notification.data?.url || '/index.html';
+  const targetUrl = event.notification.data?.url || '/Plantmommy-frontend/index.html';
 
   event.waitUntil(
     clients.matchAll({ type: 'window' }).then(clientList => {
