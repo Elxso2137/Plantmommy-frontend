@@ -45,7 +45,6 @@
       box-shadow: 4px 4px 10px rgba(0,0,0,0.1);
       transition: transform 0.2s, box-shadow 0.2s;
       text-decoration: none;
-      cursor: pointer;
     }
     .btn:hover {
       transform: translateY(-4px);
@@ -61,8 +60,9 @@
     <a href="http://plantmommy.ct.ws/twojastara-watering.php" class="btn">Podlej Rośliny</a>
     <a href="http://plantmommy.ct.ws/listaroslin-twojastara.php" class="btn">Zobacz Rośliny</a>
     <a href="index.html" class="btn">Wróć do wyboru użytkownika</a>
-    <button id="enableNotifications" class="btn">Włącz powiadomienia</button>
   </div>
+
+  <button id="enableNotifications" class="btn">Włącz powiadomienia</button>
 
   <script>
     if ('serviceWorker' in navigator) {
@@ -76,27 +76,18 @@
     }
 
     document.addEventListener("DOMContentLoaded", function () {
-      document.getElementById("enableNotifications").addEventListener("click", function () {
-        if ("Notification" in window) {
-          if (Notification.permission === "granted") {
-            new Notification("🌿 Plantmommy", {
-              body: "Powiadomienia są już włączone!",
-              icon: "icon.png"
-            });
-          } else {
-            Notification.requestPermission().then(function (permission) {
-              if (permission === "granted") {
-                new Notification("🌿 Plantmommy", {
-                  body: "Powiadomienia włączone! Będziemy przypominać Ci o podlewaniu.",
-                  icon: "icon.png"
-                });
-              } else {
-                alert("Nie przyznano uprawnień do powiadomień.");
-              }
-            });
-          }
+      const notifyBtn = document.getElementById("enableNotifications");
+
+      notifyBtn.addEventListener("click", async () => {
+        const permission = await Notification.requestPermission();
+        if (permission === "granted") {
+          new Notification("🌿 Plantmommy", {
+            body: "Hej Elu! Nie zapomnij o podlaniu roślinek 💧",
+            icon: "icon.png"
+          });
+          alert("Powiadomienia zostały włączone!");
         } else {
-          alert("Twoja przeglądarka nie obsługuje powiadomień.");
+          alert("Powiadomienia są zablokowane lub odrzucone.");
         }
       });
     });
