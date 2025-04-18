@@ -62,10 +62,7 @@
     <a href="index.html" class="btn">Wróć do wyboru użytkownika</a>
   </div>
 
-  <button id="enableNotifications" class="btn">Włącz powiadomienia</button>
-
   <script>
-    // Rejestracja service workera
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('service-worker.js')
         .then(function(registration) {
@@ -76,25 +73,19 @@
         });
     }
 
-    // Obsługa przycisku "Włącz powiadomienia"
     document.addEventListener("DOMContentLoaded", function () {
-      const notifyBtn = document.getElementById("enableNotifications");
-
-      notifyBtn.addEventListener("click", async () => {
-        const permission = await Notification.requestPermission();
-        if (permission === "granted") {
-          new Notification("🌿 Plantmommy", {
-            body: "Hej Ela! Nie zapomnij o podlaniu roślinek 💧",
-            icon: "icon.png"
-          });
-          alert("Powiadomienia zostały włączone!");
-        } else {
-          alert("Powiadomienia są zablokowane lub odrzucone.");
-        }
-      });
+      if ("Notification" in window && Notification.permission !== "granted") {
+        Notification.requestPermission().then(function (permission) {
+          if (permission === "granted") {
+            new Notification("🌿 Plantmommy", {
+              body: "Hej Ela! Nie zapomnij o podlaniu roślinek 💧",
+              icon: "icon.png"
+            });
+          }
+        });
+      }
     });
 
-    // Przekazanie user ID do service workera
     window.addEventListener("load", function () {
       const userId = document.body.getAttribute("data-user-id");
       if (navigator.serviceWorker && navigator.serviceWorker.controller) {
