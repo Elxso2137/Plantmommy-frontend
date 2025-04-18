@@ -41,7 +41,9 @@ self.addEventListener('push', event => {
     body: data.body || "Czas podlać swoje rośliny!",
     icon: '/icon.png',
     badge: '/icon.png',
-    data: data.url || '/'
+    data: {
+      url: data.url || '/index.html' // bezpieczne domyślne przekierowanie
+    }
   };
 
   event.waitUntil(
@@ -55,16 +57,17 @@ self.addEventListener('push', event => {
 self.addEventListener('notificationclick', event => {
   event.notification.close(); // Zamknij powiadomienie
 
-  // Otwórz stronę lub przenieś użytkownika do odpowiedniego linku
+  const targetUrl = event.notification.data?.url || '/index.html';
+
   event.waitUntil(
     clients.matchAll({ type: 'window' }).then(clientList => {
       for (const client of clientList) {
-        if (client.url === event.notification.data && 'focus' in client) {
+        if (client.url === targetUrl && 'focus' in client) {
           return client.focus();
         }
       }
       if (clients.openWindow) {
-        return clients.openWindow(event.notification.data);
+        return clients.openWindow(targetUrl);
       }
     })
   );
