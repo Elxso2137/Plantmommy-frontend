@@ -26,10 +26,9 @@ function subscribeUserToPush(registration) {
   console.log('Próbujemy subskrybować użytkownika...');
   registration.pushManager.subscribe({
     userVisibleOnly: true,
-    applicationServerKey: urlB64ToUint8Array('BHq85usm7hqXXAfaQe3VVa-oXgVXe9VxElrlIAquTTVq3_whlRIrjthhRQSt7JKxT3ldRfmoNc4r1W81kAEoZmY') // Zastąp VAPID_PUBLIC_KEY rzeczywistym kluczem
+    applicationServerKey: urlB64ToUint8Array('BHq85usm7hqXXAfaQe3VVa-oXgVXe9VxElrlIAquTTVq3_whlRIrjthhRQSt7JKxT3ldRfmoNc4r1W81kAEoZmY')
   }).then(function(subscription) {
     console.log('Subskrypcja użytkownika:', subscription);
-    // Prześlij subskrypcję do backendu (np. do bazy danych)
     sendSubscriptionToServer(subscription);
   }).catch(function(error) {
     console.error('Błąd subskrypcji push:', error);
@@ -37,13 +36,24 @@ function subscribeUserToPush(registration) {
 }
 
 function sendSubscriptionToServer(subscription) {
-  // Wysłanie subskrypcji do backendu w celu zapisania w bazie danych
+  const userId = localStorage.getItem('user_id'); // zakładamy, że wcześniej zostało zapisane np. "1" lub "2"
+
+  if (!userId) {
+    console.error('Brak user_id w localStorage!');
+    return;
+  }
+
+  const dataToSend = {
+    subscription: subscription,
+    user_id: userId
+  };
+
   fetch('/save-subscription.php', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(subscription)
+    body: JSON.stringify(dataToSend)
   }).then(function(response) {
     return response.json();
   }).then(function(data) {
