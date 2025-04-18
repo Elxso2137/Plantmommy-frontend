@@ -2,7 +2,7 @@
   "name": "Plantmommy - Anetka",
   "short_name": "Anetka",
   "description": "Aplikacja do zarządzania roślinami - profil Anetki",
-  "start_url": "https://plantmommy.ct.ws/anetka.html",
+  "start_url": "/anetka.html",  // Relatywny URL zamiast pełnego adresu
   "display": "standalone",
   "background_color": "#fff5f7",
   "theme_color": "#e91e63",
