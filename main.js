@@ -1,20 +1,31 @@
-// Sprawdzamy, czy przeglądarka wspiera Service Worker i Push API
 if ('serviceWorker' in navigator && 'PushManager' in window) {
   console.log('Service Worker i Push API wspierane!');
   navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
     console.log('Service Worker zarejestrowany!', registration);
 
-    // Zapytanie o pozwolenie na powiadomienia push
-    Notification.requestPermission().then(function(permission) {
-      console.log('Permission dla powiadomień:', permission);
-      if (permission === "granted") {
-        console.log('Użytkownik zgodził się na powiadomienia push.');
-        // Możemy teraz subskrybować użytkownika do powiadomień push
-        subscribeUserToPush(registration);
-      } else {
-        console.log('Użytkownik odmówił powiadomienia push.');
-      }
-    });
+    // [DODANE] Sprawdź, czy plik istnieje
+    fetch('/service-worker.js')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('service-worker.js nie został znaleziony (404)');
+        }
+        return response.text();
+      })
+      .then(() => {
+        Notification.requestPermission().then(function(permission) {
+          console.log('Permission dla powiadomień:', permission);
+          if (permission === "granted") {
+            console.log('Użytkownik zgodził się na powiadomienia push.');
+            subscribeUserToPush(registration);
+          } else {
+            console.log('Użytkownik odmówił powiadomienia push.');
+          }
+        });
+      })
+      .catch(error => {
+        console.error('Problem z plikiem service-worker.js:', error);
+      });
+
   }).catch(function(error) {
     console.error('Błąd rejestracji Service Workera:', error);
   });
@@ -36,7 +47,7 @@ function subscribeUserToPush(registration) {
 }
 
 function sendSubscriptionToServer(subscription) {
-  const userId = localStorage.getItem('user_id'); // zakładamy, że wcześniej zostało zapisane np. "1" lub "2"
+  const userId = localStorage.getItem('user_id');
 
   if (!userId) {
     console.error('Brak user_id w localStorage!');
