@@ -63,7 +63,6 @@
   </div>
 
   <button id="enableNotifications" class="btn">Włącz powiadomienia</button>
-  <button id="sendNotification" class="btn">Wyślij Testowe Powiadomienie</button> <!-- Przycisk do wysyłania testowego powiadomienia -->
 
   <script>
     if ('serviceWorker' in navigator) {
@@ -96,18 +95,6 @@
         // Tu później dodamy push subscription
       } else {
         alert("Powiadomienia są zablokowane lub odrzucone.");
-      }
-    });
-
-    // Obsługa przycisku do wysyłania testowego powiadomienia
-    document.getElementById("sendNotification").addEventListener("click", () => {
-      if ("Notification" in window && Notification.permission === "granted") {
-        new Notification("🌿 Powiadomienie od PlantMommy!", {
-          body: "Czas podlać rośliny!",
-          icon: "icon.png"
-        });
-      } else {
-        alert("Powiadomienia są zablokowane lub nie zostały jeszcze włączone.");
       }
     });
 
