@@ -76,26 +76,20 @@
     }
 
     document.addEventListener("DOMContentLoaded", function () {
-      if ("Notification" in window && Notification.permission !== "granted") {
-        Notification.requestPermission().then(function (permission) {
-          if (permission === "granted") {
-            new Notification("🌿 Plantmommy", {
-              body: "Hej Anetko! Nie zapomnij o podlaniu roślinek 💧",
-              icon: "icon.png"
-            });
-          }
-        });
-      }
-    });
+      const notifyBtn = document.getElementById("enableNotifications");
 
-    document.getElementById("enableNotifications").addEventListener("click", async () => {
-      const permission = await Notification.requestPermission();
-      if (permission === "granted") {
-        alert("Powiadomienia zostały włączone!");
-        // Tu później dodamy push subscription
-      } else {
-        alert("Powiadomienia są zablokowane lub odrzucone.");
-      }
+      notifyBtn.addEventListener("click", async () => {
+        const permission = await Notification.requestPermission();
+        if (permission === "granted") {
+          new Notification("🌿 Plantmommy", {
+            body: "Hej Anetko! Nie zapomnij o podlaniu roślinek 💧",
+            icon: "icon.png"
+          });
+          alert("Powiadomienia zostały włączone!");
+        } else {
+          alert("Powiadomienia są zablokowane lub odrzucone.");
+        }
+      });
     });
 
     window.addEventListener("load", function () {
