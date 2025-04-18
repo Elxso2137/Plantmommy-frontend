@@ -62,6 +62,8 @@
     <a href="index.html" class="btn">Wróć do wyboru użytkownika</a>
   </div>
 
+  <button id="enableNotifications" class="btn">Włącz powiadomienia</button>
+
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('service-worker.js')
@@ -83,6 +85,16 @@
             });
           }
         });
+      }
+    });
+
+    document.getElementById("enableNotifications").addEventListener("click", async () => {
+      const permission = await Notification.requestPermission();
+      if (permission === "granted") {
+        alert("Powiadomienia zostały włączone!");
+        // Tu później dodamy push subscription
+      } else {
+        alert("Powiadomienia są zablokowane lub odrzucone.");
       }
     });
 
